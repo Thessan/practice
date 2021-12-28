@@ -1,11 +1,16 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-import * as reviews from './data.js';
+import cors from 'cors';
+import fs from 'fs';
+
+const reviews = './server/data.json';
 
 const PORT = 8080;
 const app = express();
 
 app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(cors());
 
 app.get('/', (request, response) => {
   response.json("Hello from server!");
@@ -15,18 +20,14 @@ app.get('/', (request, response) => {
 
 // GET all reviews
 app.get('/reviews', (request, response) => {
-  console.log(reviews);
-  response.status(201).json(reviews);
-  // try {
-   
-  //   //response.json()
-  // }
-  // catch (err) {
-  //   response.status(400).json({ message: 'Sorry, could not fetch reviews'})
-  // }
-}); 
-
-
+  fs.readFile(reviews, 'utf8', (err, data) => {
+    if (err) {
+      response.status(400).json({ message: 'Sorry, could not fetch reviews'});
+    } else if (data) {
+      response.status(201).json(JSON.parse(data))
+    }
+  })
+});
 
 // POST a new review
 // app.post('/reviews', async (request, response) => {
