@@ -16,7 +16,8 @@ export const App = () => {
       mode: 'no-cors',
     })
     .then(response => response.json())
-    .then(() => { //what to write in () ? 
+    .then((json) => { //what to write in () ? 
+      console.log(json);
       setExistingReviews() //what to write in () ?
     }).catch(err => {
       console.log(err.message)
@@ -25,7 +26,7 @@ export const App = () => {
   }
 
   useEffect(() => {
-    fetchReviews();
+     fetchReviews();
   }, []);
 
 
