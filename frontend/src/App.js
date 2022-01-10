@@ -7,25 +7,23 @@ import { AllReviews } from "./AllReviews";
 const reviewsURL = "http://localhost:8080/reviews"
 
 export const App = () => {
-  const [existingReviews, setExistingReviews] = useState([])
+  let [existingReviews] = useState([])
   const [newReview, setNewReview] = useState('')
 
 
   const fetchReviews = () => {
-    fetch(reviewsURL, {
-      mode: 'no-cors',
-    })
+    fetch(reviewsURL)
     .then(response => response.json())
-    .then(() => { //what to write in () ? 
-      setExistingReviews() //what to write in () ?
+    .then((data) => { //what to write in () ? 
+      existingReviews = data;
+      console.log('Fetched reviews, existing reviews: ', existingReviews)
     }).catch(err => {
       console.log(err.message)
-      })
-      
+    })
   }
 
   useEffect(() => {
-    fetchReviews();
+     fetchReviews();
   }, []);
 
 
